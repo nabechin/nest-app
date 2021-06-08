@@ -16,7 +16,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   module: {
-    rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
+    rules: [{ test: /\.tsx?$/, exclude: /node_modules/, loader: 'ts-loader' }],
   },
   plugins: [
     new HtmlWebpackPlugin({
