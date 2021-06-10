@@ -1,15 +1,26 @@
 import React from 'react';
+import { CreateTaskAction } from '../../actions/types';
+import { CreateTaskFormValue } from '../../entity/task';
+import { connect } from 'react-redux';
 import { Container } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { Form } from '../../components/organisms/Form';
 import { WorkList } from '../../components/organisms/WorkList';
+import { createTask } from '../../actions';
 
-export const Top = (): JSX.Element => {
+type Props = {
+  createTask: (createTaskFormValue: CreateTaskFormValue) => CreateTaskAction;
+};
+
+const Top = (props: Props): JSX.Element => {
+  const onHandleSubmit = () => {
+    props.createTask({ title: 'success!!!' });
+  };
   return (
     <Container>
       <Grid container style={{ padding: '100px' }} spacing={2}>
         <Grid item sm={12}>
-          <Form buttonText="add"></Form>
+          <Form buttonText="add" onHandleSubmit={onHandleSubmit}></Form>
         </Grid>
         <Grid item sm={12}>
           <Form buttonText="search"></Form>
@@ -25,3 +36,5 @@ export const Top = (): JSX.Element => {
     </Container>
   );
 };
+
+export default connect(null, { createTask })(Top);

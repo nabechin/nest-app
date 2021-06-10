@@ -1,5 +1,5 @@
 import React from 'react';
-import { Top } from './containers/Top';
+import Top from './containers/Top';
 
 export const App = (): JSX.Element => {
   return (

@@ -4,6 +4,7 @@ import { TextField } from '@material-ui/core';
 
 interface Props {
   buttonText?: string;
+  onHandleSubmit?: () => void;
 }
 
 export const Form = (props: Props): JSX.Element => {
@@ -21,7 +22,11 @@ export const Form = (props: Props): JSX.Element => {
           variant="outlined"
           style={{ width: '400px' }}
         ></TextField>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={props.onHandleSubmit}
+        >
           {props.buttonText}
         </Button>
       </div>
