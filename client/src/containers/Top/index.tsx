@@ -13,8 +13,8 @@ type Props = {
 };
 
 const Top = (props: Props): JSX.Element => {
-  const onHandleSubmit = () => {
-    props.createTask({ title: 'success!!!' });
+  const onHandleSubmit = (createTaskFormValue: CreateTaskFormValue) => {
+    props.createTask(createTaskFormValue);
   };
   return (
     <Container>
