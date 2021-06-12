@@ -1,5 +1,5 @@
 import React from 'react';
-import { CreateTaskAction } from '../../actions/types';
+import { TaskAction } from '../../actions/types';
 import { CreateTaskFormValue } from '../../entity/task';
 import { connect } from 'react-redux';
 import { Container } from '@material-ui/core';
@@ -9,7 +9,7 @@ import { WorkList } from '../../components/organisms/WorkList';
 import { createTask } from '../../actions';
 
 type Props = {
-  createTask: (createTaskFormValue: CreateTaskFormValue) => CreateTaskAction;
+  createTask: (createTaskFormValue: CreateTaskFormValue) => TaskAction;
 };
 
 const Top = (props: Props): JSX.Element => {
