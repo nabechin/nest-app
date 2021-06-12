@@ -1,5 +1,4 @@
 import { CREATE_TASK, CreateTaskAction } from '../actions/types';
-import { Task } from '../entity/task';
 
 export default (state = {}, action: CreateTaskAction) => {
   switch (action.type) {

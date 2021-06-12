@@ -9,11 +9,12 @@ interface Props {
 }
 
 export const Form = (props: Props): JSX.Element => {
+  const { buttonText, onHandleSubmit } = props;
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const onSubmit = () => {
-    if (inputTitleRef.current != null && props.onHandleSubmit) {
+    if (inputTitleRef.current != null && onHandleSubmit) {
       const title = inputTitleRef.current.value;
-      props.onHandleSubmit({ title });
+      onHandleSubmit({ title });
     }
   };
   return (
@@ -29,10 +30,10 @@ export const Form = (props: Props): JSX.Element => {
           label="task"
           variant="outlined"
           style={{ width: '400px' }}
-          ref={inputTitleRef}
+          inputRef={inputTitleRef}
         ></TextField>
         <Button variant="contained" color="primary" onClick={onSubmit}>
-          {props.buttonText}
+          {buttonText}
         </Button>
       </div>
     </form>
