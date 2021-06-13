@@ -5,11 +5,16 @@ import { ListItem } from '@material-ui/core';
 import { ListItemText } from '@material-ui/core';
 import { Divider } from '@material-ui/core';
 
-export const WorkList = (): JSX.Element => {
+type Props = {
+  title: string;
+};
+
+export const TaskList = (props: Props): JSX.Element => {
+  const { title } = props;
   return (
     <>
       <ListItem>
-        <ListItemText>task1</ListItemText>
+        <ListItemText>{title}</ListItemText>
         <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
       </ListItem>
       <Divider />

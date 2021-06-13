@@ -1,20 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TaskAction } from '../../actions/types';
-import { CreateTaskFormValue } from '../../entity/task';
+import { CreateTaskFormValue, Task } from '../../entity/task';
 import { connect } from 'react-redux';
 import { Container } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { Form } from '../../components/organisms/Form';
-import { WorkList } from '../../components/organisms/WorkList';
-import { createTask } from '../../actions';
+import { TaskList } from '../../components/organisms/TaskList';
+import { createTask, getTasks } from '../../actions';
 
 type Props = {
   createTask: (createTaskFormValue: CreateTaskFormValue) => TaskAction;
+  getTasks: () => Task[];
 };
 
 const Top = (props: Props): JSX.Element => {
+  useEffect(() => {
+    props.getTasks();
+  });
+  const taskList: Task[] = [
+    { id: '1', title: 'title1' },
+    { id: '2', title: 'title2' },
+  ];
   const onHandleSubmit = (createTaskFormValue: CreateTaskFormValue) => {
     props.createTask(createTaskFormValue);
+  };
+
+  const renderWorkList = (): JSX.Element[] => {
+    return taskList.map((work) => {
+      return <TaskList key={work.id} {...work}></TaskList>;
+    });
   };
   return (
     <Container>
@@ -28,13 +42,16 @@ const Top = (props: Props): JSX.Element => {
       </Grid>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={8}>
-          <WorkList></WorkList>
-          <WorkList></WorkList>
-          <WorkList></WorkList>
+          {renderWorkList()}
         </Grid>
       </Grid>
     </Container>
   );
 };
 
-export default connect(null, { createTask })(Top);
+const mapStateToProps = (state) => {
+  return {
+    tasks: Object.values(state.tasks),
+  };
+};
+export default connect(mapStateToProps, { createTask, getTasks })(Top);

@@ -8,13 +8,13 @@ export const createTask = (
   createTaskFormValue: CreateTaskFormValue
 ): TaskAction => ({
   type: CREATE_TASK,
-  payload: createTaskFormValue,
+  payload: { id: '1', title: 'testtitle' },
 });
 
 export const getTasks =
   () =>
   async (dispatch: Dispatch<Action>): Promise<void> => {
-    const taskUsecase = new TaskUseCase(new TaskRepository());
-    const tasks = await taskUsecase.getTasks();
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    const tasks = await taskUseCase.getTasks();
     dispatch({ type: GET_TASKS, payload: tasks });
   };

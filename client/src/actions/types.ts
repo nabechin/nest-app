@@ -8,11 +8,11 @@ export type TaskAction = CreateTaskAction | GetTasksAction;
 export type CreateTaskAction = {
   type: typeof CREATE_TASK;
 } & {
-  payload: CreateTaskFormValue;
+  payload: Task;
 };
 
 export type GetTasksAction = {
   type: typeof GET_TASKS;
 } & {
-  payload: Task;
+  payload: Task[];
 };
