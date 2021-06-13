@@ -8,6 +8,7 @@ export class TaskRepository implements ITaskRepository {
   };
   getTasks = async (): Promise<Task[]> => {
     const { data } = await baseAxios.get('/tasks');
+    console.log(data);
     return data.records;
   };
 }

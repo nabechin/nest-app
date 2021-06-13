@@ -18,11 +18,8 @@ type Props = {
 const Top = (props: Props): JSX.Element => {
   useEffect(() => {
     props.getTasks();
-  });
-  const taskList: Task[] = [
-    { id: '1', title: 'title1' },
-    { id: '2', title: 'title2' },
-  ];
+  }, []);
+  const taskList: Task[] = props.task;
   const onHandleSubmit = (createTaskFormValue: CreateTaskFormValue) => {
     props.createTask(createTaskFormValue);
   };
