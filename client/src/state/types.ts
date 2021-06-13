@@ -1,5 +1,5 @@
 import { Task } from '../entity/task';
 
 export type TaskState = {
-  [key: string]: Task;
+  [K in keyof Task as Extract<K, 'id'>]: Task;
 };

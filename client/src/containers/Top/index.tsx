@@ -7,10 +7,12 @@ import { Grid } from '@material-ui/core';
 import { Form } from '../../components/organisms/Form';
 import { TaskList } from '../../components/organisms/TaskList';
 import { createTask, getTasks } from '../../actions';
+import { TaskState } from '../../state/types';
 
 type Props = {
   createTask: (createTaskFormValue: CreateTaskFormValue) => TaskAction;
-  getTasks: () => Task[];
+  getTasks: () => Promise<void>;
+  task: Task[];
 };
 
 const Top = (props: Props): JSX.Element => {
@@ -49,9 +51,9 @@ const Top = (props: Props): JSX.Element => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: { task: TaskState }) => {
   return {
-    tasks: Object.values(state.tasks),
+    task: Object.values(state.task),
   };
 };
 export default connect(mapStateToProps, { createTask, getTasks })(Top);
