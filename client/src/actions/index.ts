@@ -1,15 +1,16 @@
 import { Dispatch, Action } from 'redux';
-import { CREATE_TASK, TaskAction, GET_TASKS } from './types';
+import { CREATE_TASK, GET_TASKS } from './types';
 import { CreateTaskFormValue } from '../entity/task';
 import { TaskUseCase } from '../usecase/taskUsecase/TaskUsecase';
 import { TaskRepository } from '../repository/taskRepository/TaskRepository';
 
-export const createTask = (
-  createTaskFormValue: CreateTaskFormValue
-): TaskAction => ({
-  type: CREATE_TASK,
-  payload: { id: '1', title: 'testtitle' },
-});
+export const createTask =
+  (createTaskFormValue: CreateTaskFormValue) =>
+  async (dispatch: Dispatch<Action>): Promise<void> => {
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    const task = await taskUseCase.createTask(createTaskFormValue);
+    dispatch({ type: CREATE_TASK, payload: task });
+  };
 
 export const getTasks =
   () =>

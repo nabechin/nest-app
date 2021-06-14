@@ -10,22 +10,22 @@ import { createTask, getTasks } from '../../actions';
 import { TaskState } from '../../state/types';
 
 type Props = {
-  createTask: (createTaskFormValue: CreateTaskFormValue) => TaskAction;
+  createTask: (createTaskFormValue: CreateTaskFormValue) => Promise<void>;
   getTasks: () => Promise<void>;
-  task: Task[];
+  tasks: Task[];
 };
 
 const Top = (props: Props): JSX.Element => {
+  const { tasks } = props;
   useEffect(() => {
     props.getTasks();
   }, []);
-  const taskList: Task[] = props.task;
   const onHandleSubmit = (createTaskFormValue: CreateTaskFormValue) => {
     props.createTask(createTaskFormValue);
   };
 
-  const renderWorkList = (): JSX.Element[] => {
-    return taskList.map((work) => {
+  const renderTasks = (tasks: Task[]): JSX.Element[] => {
+    return tasks.map((work) => {
       return <TaskList key={work.id} {...work}></TaskList>;
     });
   };
@@ -41,7 +41,7 @@ const Top = (props: Props): JSX.Element => {
       </Grid>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={8}>
-          {renderWorkList()}
+          {renderTasks(tasks)}
         </Grid>
       </Grid>
     </Container>
@@ -50,7 +50,7 @@ const Top = (props: Props): JSX.Element => {
 
 const mapStateToProps = (state: { task: TaskState }) => {
   return {
-    task: Object.values(state.task),
+    tasks: Object.values(state.task),
   };
 };
 export default connect(mapStateToProps, { createTask, getTasks })(Top);

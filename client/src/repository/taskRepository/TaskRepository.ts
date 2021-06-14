@@ -1,14 +1,20 @@
 import { ITaskRepository } from './ITaskRepository';
-import { Task } from '../../entity/task';
+import { CreateTaskFormValue, Task } from '../../entity/task';
 import { baseAxios } from '../../api';
 
 export class TaskRepository implements ITaskRepository {
-  craeteTask = (task: Task): Task => {
-    return { id: '111', title: 'testtitle' };
+  createTask = async (
+    createTaskFormValue: CreateTaskFormValue
+  ): Promise<Task> => {
+    const { data } = await baseAxios.post('/tasks', {
+      title: createTaskFormValue.title,
+      headers: { 'Content-Type': 'application/json' },
+    });
+    console.log(data);
+    return data.record;
   };
   getTasks = async (): Promise<Task[]> => {
     const { data } = await baseAxios.get('/tasks');
-    console.log(data);
     return data.records;
   };
 }

@@ -1,6 +1,6 @@
-import { Task } from '../../entity/task';
+import { CreateTaskFormValue, Task } from '../../entity/task';
 
 export interface ITaskRepository {
-  craeteTask: (task: Task) => Task;
+  createTask: (createTaskFormValue: CreateTaskFormValue) => Promise<Task>;
   getTasks: () => Promise<Task[]>;
 }
