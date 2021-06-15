@@ -2,8 +2,9 @@ import { Task } from '../entity/task';
 
 export const CREATE_TASK = 'CREATE_TASK';
 export const GET_TASKS = 'GET_TASKS';
+export const DELETE_TASK = 'DELETE_TASK';
 
-export type TaskAction = CreateTaskAction | GetTasksAction;
+export type TaskAction = CreateTaskAction | GetTasksAction | DeleteTaskAction;
 
 export type CreateTaskAction = {
   type: typeof CREATE_TASK;
@@ -15,4 +16,10 @@ export type GetTasksAction = {
   type: typeof GET_TASKS;
 } & {
   payload: Task[];
+};
+
+export type DeleteTaskAction = {
+  type: typeof DELETE_TASK;
+} & {
+  payload: Task['id'];
 };

@@ -10,4 +10,8 @@ export class TaskUseCase implements ITaskUseCase {
   getTasks = (): Promise<Task[]> => {
     return this.taskRepository.getTasks();
   };
+
+  deleteTask = (id: string): Promise<void> => {
+    return this.taskRepository.deleteTask(id);
+  };
 }

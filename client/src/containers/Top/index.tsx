@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { TaskAction } from '../../actions/types';
 import { CreateTaskFormValue, Task } from '../../entity/task';
 import { connect } from 'react-redux';
 import { Container } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { Form } from '../../components/organisms/Form';
-import { TaskList } from '../../components/organisms/TaskList';
+import TaskList from '../../components/organisms/TaskList';
 import { createTask, getTasks } from '../../actions';
 import { TaskState } from '../../state/types';
 

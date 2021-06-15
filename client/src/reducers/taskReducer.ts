@@ -1,4 +1,9 @@
-import { CREATE_TASK, GET_TASKS, TaskAction } from '../actions/types';
+import {
+  CREATE_TASK,
+  GET_TASKS,
+  DELETE_TASK,
+  TaskAction,
+} from '../actions/types';
 import _ from 'lodash';
 import { TaskState } from '../state/types';
 
@@ -11,6 +16,8 @@ export default (
       return { ...state, [action.payload.id]: action.payload };
     case GET_TASKS:
       return { ...state, ..._.mapKeys(action.payload, 'id') };
+    case DELETE_TASK:
+      return _.omit(state, action.payload);
     default:
       return state;
   }

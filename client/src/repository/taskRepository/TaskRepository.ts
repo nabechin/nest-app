@@ -17,4 +17,8 @@ export class TaskRepository implements ITaskRepository {
     const { data } = await baseAxios.get('/tasks');
     return data.records;
   };
+
+  deleteTask = async (id: string): Promise<void> => {
+    await baseAxios.delete(`/tasks/${id}`);
+  };
 }
