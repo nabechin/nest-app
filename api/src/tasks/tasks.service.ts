@@ -19,7 +19,10 @@ export class TasksService {
   createTask(createTaskDto: CreateTaskDto): Task {
     const { title } = createTaskDto;
     this.tasks.push({ id: uuid(), title });
-    console.log({ id: uuid(), title });
     return { id: uuid(), title };
+  }
+
+  deleteTask(id: string): void {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 }
