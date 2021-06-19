@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateTaskDto } from '../tasks/dto/createTask.dto';
 import { v4 as uuid } from 'uuid';
@@ -15,8 +15,8 @@ export class TasksService {
     { id: '4', title: 'title4' },
   ];
 
-  getAllTasks(): Task[] {
-    return this.tasks;
+  async getAllTasks(): Promise<Task[]> {
+    return await this.taskModel.find().select('-_id id title').exec();
   }
 
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
@@ -30,7 +30,10 @@ export class TasksService {
     }
   }
 
-  deleteTask(id: string): void {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+  async deleteTask(id: string): Promise<void> {
+    const result = await this.taskModel.deleteOne({ id }).exec();
+    if (result.n === 0) {
+      throw new NotFoundException();
+    }
   }
 }
