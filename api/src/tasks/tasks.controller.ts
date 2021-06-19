@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateTaskDto } from './dto/createTask.dto';
 import { ResponseTasks } from './interfaces/tasks.interface';
+import { Task } from './schemas/task.schema';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
@@ -13,9 +14,13 @@ export class TasksController {
     };
   }
   @Post()
-  createTask(@Body() createTaskDto: CreateTaskDto) {
+  async createTask(
+    @Body() createTaskDto: CreateTaskDto,
+  ): Promise<{ record: Task }> {
+    const task = await this.tasksService.createTask(createTaskDto);
+    console.log(task);
     return {
-      record: this.tasksService.createTask(createTaskDto),
+      record: task,
     };
   }
   @Delete('/:id')
