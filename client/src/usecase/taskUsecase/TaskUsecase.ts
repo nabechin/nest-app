@@ -1,4 +1,4 @@
-import { CreateTaskFormValue, Task } from '../../entity/task';
+import { CreateTaskFormValue, FilterTask, Task } from '../../entity/task';
 import { ITaskRepository } from '../../repository/taskRepository/ITaskRepository';
 import { ITaskUseCase } from './ITaskUsecase';
 
@@ -13,5 +13,9 @@ export class TaskUseCase implements ITaskUseCase {
 
   deleteTask = (id: string): Promise<void> => {
     return this.taskRepository.deleteTask(id);
+  };
+
+  filterTask = (filterTask: FilterTask): Promise<Task[]> => {
+    return this.taskRepository.filterTasks(filterTask);
   };
 }

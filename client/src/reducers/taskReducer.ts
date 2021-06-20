@@ -3,6 +3,7 @@ import {
   GET_TASKS,
   DELETE_TASK,
   TaskAction,
+  FILTER_TASK,
 } from '../actions/types';
 import _ from 'lodash';
 import { TaskState } from '../state/types';
@@ -18,6 +19,8 @@ export default (
       return { ...state, ..._.mapKeys(action.payload, 'id') };
     case DELETE_TASK:
       return _.omit(state, action.payload);
+    case FILTER_TASK:
+      return _.mapKeys(action.payload, 'id');
     default:
       return state;
   }

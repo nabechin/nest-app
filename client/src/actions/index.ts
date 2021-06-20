@@ -1,6 +1,6 @@
 import { Dispatch, Action } from 'redux';
-import { CREATE_TASK, GET_TASKS, DELETE_TASK } from './types';
-import { CreateTaskFormValue } from '../entity/task';
+import { CREATE_TASK, GET_TASKS, DELETE_TASK, FILTER_TASK } from './types';
+import { CreateTaskFormValue, FilterTask } from '../entity/task';
 import { TaskUseCase } from '../usecase/taskUsecase/TaskUsecase';
 import { TaskRepository } from '../repository/taskRepository/TaskRepository';
 
@@ -26,4 +26,12 @@ export const deleteTask =
     const taskUseCase = new TaskUseCase(new TaskRepository());
     await taskUseCase.deleteTask(id);
     dispatch({ type: DELETE_TASK, payload: id });
+  };
+
+export const filterTask =
+  (filterTask: FilterTask) =>
+  async (dispatch: Dispatch<Action>): Promise<void> => {
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    const tasks = await taskUseCase.filterTask(filterTask);
+    dispatch({ type: FILTER_TASK, payload: tasks });
   };

@@ -3,4 +3,6 @@ export type Task = {
   title: string;
 };
 
+export type FilterTask = Pick<Task, Exclude<keyof Task, 'id'>>;
+
 export type CreateTaskFormValue = Pick<Task, Exclude<keyof Task, 'id'>>;

@@ -1,12 +1,15 @@
 import React, { useRef } from 'react';
 import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
-import { CreateTaskFormValue } from '../../../entity/task';
 
-interface Props {
+type Field = {
+  title: string;
+};
+
+type Props = {
   buttonText?: string;
-  onHandleSubmit?: (createTaskFormValue: CreateTaskFormValue) => void;
-}
+  onHandleSubmit?: <T extends Field>(fields: T) => void;
+};
 
 export const Form = (props: Props): JSX.Element => {
   const { buttonText, onHandleSubmit } = props;
