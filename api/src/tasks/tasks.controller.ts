@@ -16,9 +16,11 @@ import { TasksService } from './tasks.service';
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
   @Get()
-  async getTasks(): Promise<ResponseTasks> {
+  async getTasks(
+    @Query() filterTasksDto: FilterTasksDto,
+  ): Promise<ResponseTasks> {
     return {
-      records: await this.tasksService.getAllTasks(),
+      records: await this.tasksService.getAllTasks(filterTasksDto),
     };
   }
   @Post()
@@ -32,13 +34,5 @@ export class TasksController {
   @Delete('/:id')
   async deleteTask(@Param('id') id: string): Promise<void> {
     await this.tasksService.deleteTask(id);
-  }
-  @Get()
-  async filterTasks(
-    @Query() filterTasksDto: FilterTasksDto,
-  ): Promise<ResponseTasks> {
-    return {
-      records: await this.tasksService.filterTasks(filterTasksDto),
-    };
   }
 }

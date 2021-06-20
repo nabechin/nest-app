@@ -9,8 +9,14 @@ import { FilterTasksDto } from './dto/filterTasks.dto';
 @Injectable()
 export class TasksService {
   constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
-  async getAllTasks(): Promise<Task[]> {
-    return await this.taskModel.find().select('-_id id title').exec();
+  async getAllTasks(filterTasksDto: FilterTasksDto): Promise<Task[]> {
+    const model = this.taskModel;
+    const query = {};
+    const { title } = filterTasksDto;
+    if (title) {
+      query['title'] = { $regex: '.*' + title + '.*', $options: 'i' };
+    }
+    return await model.find(query).select('-_id id title').exec();
   }
 
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
