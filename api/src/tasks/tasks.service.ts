@@ -1,9 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from '../tasks/dto/createTask.dto';
-import { v4 as uuid } from 'uuid';
-import { Task, TaskDocument } from './schemas/task.schema';
-import { Model } from 'mongoose';
+import { Task } from './schemas/task.schema';
 import { FilterTasksDto } from './dto/filterTasks.dto';
 import { TasksRepository } from './tasks.repository';
 

@@ -16,7 +16,7 @@ import { TasksService } from './tasks.service';
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
   @Get()
-  async getTasks(
+  async getAllTasks(
     @Query() filterTasksDto: FilterTasksDto,
   ): Promise<ResponseTasks> {
     return {
