@@ -1,7 +1,7 @@
 import { ITaskRepository } from '../src/repository/taskRepository/ITaskRepository';
 import { TaskUseCase } from '../src/usecase/taskUsecase/TaskUsecase';
 
-class MockTaskRepository implements ITaskRepository {
+export class MockTaskRepository implements ITaskRepository {
   createTask = jest.fn();
   getTasks = jest.fn();
   deleteTask = jest.fn();

@@ -5,7 +5,9 @@ import { ListItem } from '@material-ui/core';
 import { ListItemText } from '@material-ui/core';
 import { Divider } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { deleteTask } from '../../../actions/';
+import { TaskActionCreater } from '../../../actions/';
+import { TaskRepository } from '../../../repository/taskRepository/TaskRepository';
+import { TaskUseCase } from '../../../usecase/taskUsecase/TaskUsecase';
 
 type Props = {
   id: string;
@@ -30,5 +32,11 @@ const TaskList = (props: Props): JSX.Element => {
     </>
   );
 };
+
+const taskActionCreater = new TaskActionCreater(
+  new TaskUseCase(new TaskRepository())
+);
+
+const deleteTask = taskActionCreater.deleteTask;
 
 export default connect(null, { deleteTask })(TaskList);
