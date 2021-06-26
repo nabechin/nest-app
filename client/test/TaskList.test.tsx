@@ -1,32 +1,59 @@
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { render, cleanup, screen } from '@testing-library/react';
+import {
+  render,
+  screen,
+  fireEvent,
+  cleanup,
+  waitFor,
+  queryByText,
+} from '@testing-library/react';
 import TaskList from '../src/components/organisms/TaskList';
-import taskReducer from '../src/reducers/taskReducer';
+import reducers from '../src/reducers';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import Top from '../src/containers/Top';
 import { TaskState } from '../src/state/types';
-import { TaskAction } from '../src/actions/types';
-import { TaskUseCase } from '../src/usecase/taskUsecase/TaskUsecase';
-import { MockTaskRepository } from './TaskUsecase.test';
 
-function renderWithRedux(component: JSX.Element) {
-  const store = createStore<TaskState, TaskAction, unknown, unknown>(
-    taskReducer,
-    {}
-  );
+const server = setupServer(
+  rest.delete('http://localhost:5000/tasks/1', (req, res, ctx) => {
+    return res(ctx.status(202));
+  })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => {
+  cleanup;
+  server.resetHandlers();
+});
+afterAll(() => server.close());
+
+function renderWithRedux(component: JSX.Element, initialState: any) {
+  console.log(initialState);
+  let store;
+  if (initialState) {
+    store = createStore(reducers, initialState, applyMiddleware(reduxThunk));
+  } else {
+    store = createStore(reducers, applyMiddleware(reduxThunk));
+  }
   return { ...render(<Provider store={store}>{component}</Provider>) };
 }
 
 describe('TaskList', () => {
   it('render TaskList Component', () => {
-    const task = {
-      id: '1',
-      title: 'title',
-    };
-    renderWithRedux(<TaskList {...task} />);
-    expect(screen.getByText('title')).toBeInTheDocument();
+    const task = { '1': { id: '1', title: 'title1' } };
+    const props = Object.values(task)[0];
+    renderWithRedux(<TaskList {...props} />, { task });
+    expect(screen.getByText('title1')).toBeInTheDocument();
   });
-  it('delete task event', () => {
-    const taskUseCase = new TaskUseCase(new MockTaskRepository());
+  it('delete task event', async () => {
+    const task = { '1': { id: '1', title: 'title1' } };
+    renderWithRedux(<Top />, { task });
+    fireEvent.click(screen.getByRole('button', { name: 'delete' }));
+    await waitFor(() =>
+      expect(screen.queryByText('title1')).not.toBeInTheDocument()
+    );
   });
 });
