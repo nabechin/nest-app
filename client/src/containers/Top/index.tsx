@@ -23,8 +23,9 @@ const Top = (props: Props): JSX.Element => {
     props.getTasks();
   }, []);
   const renderTasks = (tasks: Task[]): JSX.Element[] => {
-    return tasks.map((work) => {
-      return <TaskList key={work.id} {...work}></TaskList>;
+    console.log(tasks);
+    return tasks.map((task) => {
+      return <TaskList key={task.id} {...task}></TaskList>;
     });
   };
   return (

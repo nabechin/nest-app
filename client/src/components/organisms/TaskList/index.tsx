@@ -25,7 +25,7 @@ const TaskList = (props: Props): JSX.Element => {
       <ListItem>
         <ListItemText>{title}</ListItemText>
         <button onClick={() => onHandleClick(id)}>
-          <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+          <FontAwesomeIcon title="delete" icon={faTrash}></FontAwesomeIcon>
         </button>
       </ListItem>
       <Divider />
@@ -37,6 +37,6 @@ const taskActionCreater = new TaskActionCreater(
   new TaskUseCase(new TaskRepository())
 );
 
-const deleteTask = taskActionCreater.deleteTask;
+const { deleteTask } = taskActionCreater;
 
 export default connect(null, { deleteTask })(TaskList);
