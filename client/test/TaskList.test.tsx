@@ -8,14 +8,12 @@ import {
   fireEvent,
   cleanup,
   waitFor,
-  queryByText,
 } from '@testing-library/react';
 import TaskList from '../src/components/organisms/TaskList';
 import reducers from '../src/reducers';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import Top from '../src/containers/Top';
-import { TaskState } from '../src/state/types';
 
 const server = setupServer(
   rest.delete('http://localhost:5000/tasks/1', (req, res, ctx) => {
@@ -31,7 +29,6 @@ afterEach(() => {
 afterAll(() => server.close());
 
 function renderWithRedux(component: JSX.Element, initialState: any) {
-  console.log(initialState);
   let store;
   if (initialState) {
     store = createStore(reducers, initialState, applyMiddleware(reduxThunk));

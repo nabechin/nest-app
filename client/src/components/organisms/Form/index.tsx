@@ -1,6 +1,4 @@
 import React, { useRef } from 'react';
-import { Button } from '@material-ui/core';
-import { TextField } from '@material-ui/core';
 
 type Field = {
   title: string;
@@ -15,9 +13,11 @@ export const Form = (props: Props): JSX.Element => {
   const { buttonText, onHandleSubmit } = props;
   const inputTitleRef = useRef<HTMLInputElement>(null);
   const onSubmit = () => {
-    if (inputTitleRef.current != null && onHandleSubmit) {
-      const title = inputTitleRef.current.value;
-      onHandleSubmit({ title });
+    if (inputTitleRef.current && onHandleSubmit) {
+      if (inputTitleRef.current.value) {
+        const title = inputTitleRef.current.value;
+        onHandleSubmit({ title });
+      }
     }
   };
   return (
@@ -28,16 +28,13 @@ export const Form = (props: Props): JSX.Element => {
           gap: '10px',
         }}
       >
-        <TextField
-          id="outlined-basic"
-          label="task"
-          variant="outlined"
+        <input
+          aria-label={buttonText + 'input'}
+          type="text"
           style={{ width: '400px' }}
-          inputRef={inputTitleRef}
-        ></TextField>
-        <Button variant="contained" color="primary" onClick={onSubmit}>
-          {buttonText}
-        </Button>
+          ref={inputTitleRef}
+        ></input>
+        <button onClick={onSubmit}>{buttonText}</button>
       </div>
     </form>
   );
