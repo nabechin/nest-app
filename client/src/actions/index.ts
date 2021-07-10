@@ -1,7 +1,23 @@
 import { Dispatch, Action } from 'redux';
 import { CREATE_TASK, GET_TASKS, DELETE_TASK, FILTER_TASK } from './types';
+import {
+  CreateTaskAction,
+  GetTasksAction,
+  DeleteTaskAction,
+  FilterTaskAction,
+} from './types';
 import { CreateTaskFormValue, FilterTask } from '../entity/task';
 import { ITaskUseCase } from '../usecase/taskUsecase/ITaskUsecase';
+import acitonCreatorFactory from 'typescript-fsa';
+
+const actionCreator = acitonCreatorFactory();
+
+export const TaskActions = {
+  createTask: actionCreator<CreateTaskAction>(CREATE_TASK),
+  getTasks: actionCreator<GetTasksAction>(GET_TASKS),
+  deleteTask: actionCreator<DeleteTaskAction>(DELETE_TASK),
+  filterTask: actionCreator<FilterTaskAction>(FILTER_TASK),
+};
 
 export class TaskActionCreater {
   constructor(private readonly taskUseCase: ITaskUseCase) {}

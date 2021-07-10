@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
-import taskReducer from './taskReducer';
+import { TaskState } from '../state/types';
+import { TaskReducer } from './taskReducer';
 
-export default combineReducers({
-  task: taskReducer,
+type AppState = {
+  task: TaskState;
+};
+
+export default combineReducers<AppState>({
+  task: TaskReducer,
 });
