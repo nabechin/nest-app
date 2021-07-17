@@ -6,9 +6,11 @@ import {
   DeleteTaskAction,
   FilterTaskAction,
 } from './types';
+
 import { CreateTaskFormValue, FilterTask } from '../entity/task';
-import { ITaskUseCase } from '../usecase/taskUsecase/ITaskUsecase';
 import acitonCreatorFactory from 'typescript-fsa';
+import { TaskUseCase } from '../usecase/taskUsecase/TaskUsecase';
+import { TaskRepository } from '../repository/taskRepository/TaskRepository';
 
 const actionCreator = acitonCreatorFactory();
 
@@ -19,33 +21,37 @@ export const TaskActions = {
   filterTask: actionCreator<FilterTaskAction>(FILTER_TASK),
 };
 
-export class TaskActionCreater {
-  constructor(private readonly taskUseCase: ITaskUseCase) {}
-  createTask =
-    (createTaskFormValue: CreateTaskFormValue) =>
-    async (dispatch: Dispatch<Action>): Promise<void> => {
-      const task = await this.taskUseCase.createTask(createTaskFormValue);
-      dispatch({ type: CREATE_TASK, payload: task });
-    };
+export const createTask =
+  (createTaskFormValue: CreateTaskFormValue) =>
+  async (dispatch: Dispatch<CreateTaskAction>): Promise<void> => {
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    const task = await taskUseCase.createTask(createTaskFormValue);
+    dispatch({
+      type: CREATE_TASK,
+      payload: task,
+    });
+  };
 
-  getTasks =
-    () =>
-    async (dispatch: Dispatch<Action>): Promise<void> => {
-      const tasks = await this.taskUseCase.getTasks();
-      dispatch({ type: GET_TASKS, payload: tasks });
-    };
+export const getTasks =
+  () =>
+  async (dispatch: Dispatch<GetTasksAction>): Promise<void> => {
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    const tasks = await taskUseCase.getTasks();
+    dispatch({ type: GET_TASKS, payload: tasks });
+  };
 
-  deleteTask =
-    (id: string) =>
-    async (dispatch: Dispatch<Action>): Promise<void> => {
-      await this.taskUseCase.deleteTask(id);
-      dispatch({ type: DELETE_TASK, payload: id });
-    };
+export const deleteTask =
+  (id: string) =>
+  async (dispatch: Dispatch<DeleteTaskAction>): Promise<void> => {
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    await taskUseCase.deleteTask(id);
+    dispatch({ type: DELETE_TASK, payload: id });
+  };
 
-  filterTask =
-    (filterTask: FilterTask) =>
-    async (dispatch: Dispatch<Action>): Promise<void> => {
-      const tasks = await this.taskUseCase.filterTask(filterTask);
-      dispatch({ type: FILTER_TASK, payload: tasks });
-    };
-}
+export const filterTask =
+  (filterTask: FilterTask) =>
+  async (dispatch: Dispatch<Action>): Promise<void> => {
+    const taskUseCase = new TaskUseCase(new TaskRepository());
+    const tasks = await taskUseCase.filterTask(filterTask);
+    dispatch({ type: FILTER_TASK, payload: tasks });
+  };
