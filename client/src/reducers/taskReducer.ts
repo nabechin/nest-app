@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import mapKeys from 'lodash/mapKeys';
+import omit from 'lodash/omit';
 import { TaskState } from '../state/types';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { TaskActions } from '../actions';
@@ -18,15 +19,17 @@ export const TaskReducer = reducerWithInitialState(initialState)
   })
   .case(TaskActions.getTasks, (state, action) => {
     console.log(action);
-    return { ...state, ..._.mapKeys(action.payload, 'id') };
+    return { ...state, ...mapKeys(action.payload, 'id') };
   })
   .case(TaskActions.deleteTask, (state, action) => {
-    return _.omit(state, action.payload);
+    return omit(state, action.payload);
   })
   .case(TaskActions.filterTask, (state, action) => {
-    return _.mapKeys(action.payload, 'id');
+    return mapKeys(action.payload, 'id');
   })
-  .build();
+  .default((state) => {
+    return state;
+  });
 
 export default (
   state: TaskState = {} as TaskState,
@@ -36,11 +39,11 @@ export default (
     case CREATE_TASK:
       return { ...state, [action.payload.id]: action.payload };
     case GET_TASKS:
-      return { ...state, ..._.mapKeys(action.payload, 'id') };
+      return { ...state, ...mapKeys(action.payload, 'id') };
     case DELETE_TASK:
-      return _.omit(state, action.payload);
+      return omit(state, action.payload);
     case FILTER_TASK:
-      return _.mapKeys(action.payload, 'id');
+      return mapKeys(action.payload, 'id');
     default:
       return state;
   }
