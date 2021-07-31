@@ -15,7 +15,8 @@ module.exports = {
   devtool: process.env.NODE_ENV == 'production' ? false : 'inline-source-map',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[contenthash].bundle.js',
   },
   module: {
     rules: [{ test: /\.tsx?$/, exclude: /node_modules/, loader: 'ts-loader' }],
@@ -26,6 +27,17 @@ module.exports = {
     }),
     new BundleAnalyzerPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        react: {
+          test: /react/,
+          name: 'react',
+          chunks: 'all',
+        },
+      },
+    },
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     hot: true,
