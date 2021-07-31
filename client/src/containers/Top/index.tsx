@@ -6,9 +6,7 @@ import { Grid } from '@material-ui/core';
 import { Form } from '../../components/organisms/Form';
 import TaskList from '../../components/organisms/TaskList';
 import { TaskState } from '../../state/types';
-import { TaskActionCreater } from '../../actions/';
-import { TaskRepository } from '../../repository/taskRepository/TaskRepository';
-import { TaskUseCase } from '../../usecase/taskUsecase/TaskUsecase';
+import { createTask, getTasks, filterTask } from '../../actions';
 
 type Props = {
   createTask: (createTaskFormValue: CreateTaskFormValue) => Promise<void>;
@@ -61,12 +59,6 @@ const mapStateToProps = (state: { task: TaskState }) => {
     tasks: Object.values(state.task),
   };
 };
-
-const taskActionCreater = new TaskActionCreater(
-  new TaskUseCase(new TaskRepository())
-);
-
-const { createTask, getTasks, filterTask } = taskActionCreater;
 
 export default connect(mapStateToProps, { createTask, getTasks, filterTask })(
   Top
