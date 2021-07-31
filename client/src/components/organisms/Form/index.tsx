@@ -12,7 +12,7 @@ type Props = {
 export const Form = (props: Props): JSX.Element => {
   const { buttonText, onHandleSubmit } = props;
   const inputTitleRef = useRef<HTMLInputElement>(null);
-  const onSubmit = (e: React.FormEvent<HTMLInputElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (inputTitleRef.current && onHandleSubmit) {
       if (inputTitleRef.current.value) {
@@ -22,7 +22,7 @@ export const Form = (props: Props): JSX.Element => {
     }
   };
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <div
         style={{
           display: 'inline-flex',
@@ -35,7 +35,7 @@ export const Form = (props: Props): JSX.Element => {
           style={{ width: '400px' }}
           ref={inputTitleRef}
         ></input>
-        <button onClick={onSubmit}>{buttonText}</button>
+        <button>{buttonText}</button>
       </div>
     </form>
   );
