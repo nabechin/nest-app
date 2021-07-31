@@ -12,7 +12,8 @@ type Props = {
 export const Form = (props: Props): JSX.Element => {
   const { buttonText, onHandleSubmit } = props;
   const inputTitleRef = useRef<HTMLInputElement>(null);
-  const onSubmit = () => {
+  const onSubmit = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
     if (inputTitleRef.current && onHandleSubmit) {
       if (inputTitleRef.current.value) {
         const title = inputTitleRef.current.value;
